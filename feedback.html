@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<!-- منع الزووم التلقائي في الأيفون وضمان ثبات القياسات -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>تقييم الضيافة | مجموعة ذهب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-gradient: linear-gradient(135deg, #FDFBF7 0%, #EAE7DC 100%);
+    --pine-dark: #1F3423;
+    --gold-premium: #B4863C;
+    --gold-light: #D4AF37;
+    --white: #FFFFFF;
+    --text-main: #2C3E50;
+    --text-soft: #7F8C8D;
+    --border-soft: rgba(180, 134, 60, 0.2);
+    --gold-inactive: rgba(180, 134, 60, 0.5); 
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent; /* إلغاء اللون الرمادي عند اللمس في الموبايل */
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 15px; /* مسافة أمان حول الكارت في الشاشات الصغيرة */
+  }
+
+  .premium-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 25px;
+    border-radius: 35px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    text-align: center;
+    border: 1px solid var(--white);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .premium-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to left, var(--gold-premium), var(--gold-light), var(--gold-premium));
+  }
+
+  .logo { 
+    width: 80px; 
+    margin-bottom: 20px; 
+  }
+
+  h2 { 
+    color: var(--pine-dark); 
+    margin-bottom: 10px; 
+    font-weight: 800;
+    font-size: 24px;
+  }
+
+  p { 
+    color: var(--text-soft); 
+    font-size: 14px; 
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  
+  .input-group { 
+    text-align: right; 
+    margin-bottom: 20px; 
+  }
+
+  .input-group label { 
+    display: block; 
+    font-weight: 700; 
+    margin-bottom: 8px; 
+    font-size: 13px; 
+    color: var(--pine-dark);
+    opacity: 0.8;
+  }
+
+  .input-group input, .input-group textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 15px;
+    border: 1px solid var(--border-soft);
+    font-family: inherit;
+    font-size: 16px; /* 16px تمنع الزووم التلقائي في الأيفون */
+    outline: none;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.6);
+    box-sizing: border-box;
+    color: var(--text-main);
+  }
+
+  .input-group input:focus, .input-group textarea:focus {
+    border-color: var(--gold-premium);
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(180, 134, 60, 0.1);
+  }
+
+  .stars-section {
+    margin-bottom: 25px;
+  }
+
+  .stars-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .star-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: transform 0.2s ease;
+  }
+
+  .star-item:active { transform: scale(0.9); }
+
+  .star-icon {
+    width: 35px;
+    height: 35px;
+    fill: var(--gold-inactive); 
+    transition: fill 0.3s ease;
+    shape-rendering: geometricPrecision; 
+  }
+
+  .star-item.active .star-icon {
+    fill: var(--gold-premium);
+    filter: drop-shadow(0 0 5px rgba(180, 134, 60, 0.4));
+  }
+
+  .btn-send {
+    background: var(--pine-dark);
+    color: white;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(31, 52, 35, 0.2);
+    font-family: inherit;
+    margin-top: 10px;
+  }
+
+  .btn-send:active { 
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+</style>
+</head>
+<body>
+
+<div class="premium-card">
+  <img src="logo.png" class="logo" alt="لوجو مجموعة ذهب">
+  
+  <h2>رأيكم يهمنا ✨</h2>
+  <p>نحن نقدر وقتكم، يرجى مشاركتنا <br> تفاصيل تجربتكم في ضيافتنا.</p>
+  
+  <div class="input-group">
+    <label>الاسم الكريم</label>
+    <input type="text" id="userName" placeholder="الاسم بالكامل">
+  </div>
+
+  <div class="stars-section">
+    <label style="display:block; text-align:center; font-weight:700; font-size:13px; color:var(--pine-dark); margin-bottom:15px; opacity:0.8;">تقييم التجربة</label>
+    <div class="stars-wrapper" id="starGroup">
+      <!-- النجوم تولد بواسطة JS -->
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>ملاحظات إضافية</label>
+    <textarea id="comment" rows="3" placeholder="كيف يمكننا تحسين تجربتكم القادمة؟"></textarea>
+  </div>
+
+  <button class="btn-send" onclick="sendFeedback()">إرسال التقييم 🌿</button>
+</div>
+
+<script>
+  const starSvg = `
+    <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 5.19 8.63L2 9.24l5.36-7.03L6.18 21z"/>
+    </svg>`;
+
+  const starGroup = document.getElementById('starGroup');
+  for(let i=5; i>=1; i--) {
+    const btn = document.createElement('button');
+    btn.className = 'star-item';
+    btn.dataset.value = i;
+    btn.innerHTML = starSvg;
+    btn.onclick = () => setRating(i);
+    starGroup.appendChild(btn);
+  }
+
+  let selectedRating = 0;
+
+  function setRating(val) {
+    selectedRating = val;
+    document.querySelectorAll('.star-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.value <= val);
+    });
+  }
+
+  function sendFeedback() {
+    const name = document.getElementById('userName').value.trim();
+    const comment = document.getElementById('comment').value.trim();
+    
+    if(!name || selectedRating === 0) {
+      alert('يرجى إكمال التقييم وكتابة الاسم');
+      return;
+    }
+
+    const adminPhone = '97256800551'; 
+    const msg = encodeURIComponent(
+      `🌟 *تقييم جديد - مجموعة ذهب*\n` + 
+      `----------------------------\n` + 
+      `👤 *الاسم:* ${name}\n` + 
+      `⭐ *التقييم:* ${selectedRating}/5\n` + 
+      `💬 *الملاحظات:* ${comment || 'لا يوجد'}\n` + 
+      `----------------------------\n` +
+      `تم الإرسال عبر صفحة التقييم الفاخرة ✨`
+    );
+    
+    window.open(`https://wa.me/${adminPhone}?text=${msg}`, '_blank');
+  }
+</script>
+</body>
+</html>
