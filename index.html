@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>مجموعة ذهب | إدارة الحجوزات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+<!-- iOS Optimization -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="فلل ذهب">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1F3423">
+
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" href="logo.png">
+
+<style>
+  :root{
+    --bg: #F8F9F5;
+    --surface: #FFFFFF;
+    --surface-soft: #F0F2ED;
+    --ink: #1A2418;
+    --ink-soft: #6B7C65;
+    --pine: #2E4A32;
+    --pine-dark: #1F3423;
+    --gold: #B4863C;
+    --gold-soft: #EADFC3;
+    --teal: #1D4750;
+    --danger: #C0392B;
+    --border: #E0E4DB;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --shadow: 0 4px 12px rgba(31, 52, 35, 0.08);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0;padding:0; overflow-x: hidden;}
+  body{
+    font-family:'Tajawal', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom: 120px; 
+  }
+
+  /* ===== Header & TopBar ===== */
+  .header {
+    background: var(--surface);
+    padding: 20px 20px 15px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+  .brand-text h1 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--pine-dark);
+  }
+  .brand-text span {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  /* ===== Main Container ===== */
+  .app-content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+  }
+
+  /* ===== Stats Widgets ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+  .stat-widget {
+    background: var(--surface);
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .stat-widget .num {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--pine-dark);
+  }
+  .stat-widget .label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* ===== Toolbar & Filters ===== */
+  .toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .search-input:focus { border-color: var(--gold); }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-pill {
+    padding: 6px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-pill.active {
+    background: var(--pine);
+    color: #fff;
+    border-color: var(--pine);
+  }
+
+  /* ===== Booking Cards ===== */
+  .booking-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .booking-card:active { transform: scale(0.98); }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .guest-info h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--pine-dark);
+  }
+  .guest-info .villa-tag {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    display: block;
+    margin-top: 2px;
+  }
+  .status-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    background: var(--surface-soft);
+    color: var(--ink-soft);
+  }
+  .status-pill.today { background: var(--gold-soft); color: var(--gold); }
+  .status-pill.active { background: #E4EEE0; color: var(--pine); }
+
+  .card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 15px;
+  }
+  .detail-item { display: flex; align-items: center; gap: 6px; }
+  .detail-item b { color: var(--ink); font-weight: 600; }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--surface-soft);
+  }
+  .price-tag {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .action-group {
+    display: flex;
+    gap: 8px;
+  }
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--surface-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+  }
+
+  /* ===== Calendar View ===== */
+  .calendar-container {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .cal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .cal-month-year {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--pine-dark);
+  }
+  .cal-btn {
+    padding: 6px 15px;
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+  }
+  .cal-day-head {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    padding-bottom: 10px;
+  }
+  .cal-day {
+    background: var(--surface-soft);
+    aspect-ratio: 1/1.2;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid transparent;
+  }
+  .cal-day.today {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .cal-booking-dot {
+    background: var(--pine);
+    color: #fff;
+    font-size: 9px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ===== Bottom Navigation ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 10px 25px;
+    border-top: 1px solid var(--border);
+    z-index: 1000;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 60px;
+  }
+  .nav-item.active {
+    color: var(--pine-dark);
+  }
+  .nav-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .nav-add-btn {
+    width: 56px;
+    height: 56px;
+    background: var(--pine);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(46, 74, 50, 0.4);
+    margin-top: -30px;
+    border: 4px solid var(--bg);
+    cursor: pointer;
+  }
+
+  /* ===== Overlays & Modals ===== */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 52, 35, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 2000;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 25px 25px 0 0;
+    padding: 25px 20px;
+    animation: slideUp 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .modal-header h2 { margin: 0; font-size: 20px; color: var(--pine-dark); }
+  .field { margin-bottom: 15px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface-soft);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-save {
+    width: 100%;
+    padding: 15px;
+    background: var(--pine);
+    color: #fff;
+    font-size: 16px;
+    margin-top: 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+  }
+
+  /* Intro Overlay */
+  #introOverlay {
+    background: linear-gradient(-45deg, #1F3423, #2E4A32, #B4863C, #1F3423);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .intro-card { text-align: center; color: white; padding: 30px; }
+  .intro-logo { width: 160px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; animation: bounce 2s infinite; }
+  .intro-card h2 { font-size: 26px; color: var(--gold-soft); margin-bottom: 10px; }
+  .intro-card p { font-size: 16px; opacity: 0.9; margin-bottom: 30px; }
+  .btn-start { 
+    background: var(--gold); 
+    color: #fff; 
+    padding: 15px 40px; 
+    border-radius: 30px; 
+    font-size: 18px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border: none;
+    cursor: pointer;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .hidden { display: none !important; }
+  .btn-ghost {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+</style>
+</head>
+<body style="margin:0; padding:0;">
+
+<!-- Intro Overlay -->
+<div class="overlay open" id="introOverlay">
+  <div class="intro-card">
+    <img src="logo.png" class="intro-logo" alt="مجموعة ذهب">
+    <h2 id="introTitle">مجموعة فلل ذهب</h2>
+    <p id="introDesc">النظام الاحترافي لإدارة الحجوزات والضيافة</p>
+    <button class="btn-start" id="startAppBtn">دخول التطبيق 🚀</button>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="brand-area">
+    <img src="logo.png" class="brand-logo" alt="لوجو">
+    <div class="brand-text">
+      <h1>حجوزات الفلل</h1>
+      <span>مجموعة ذهب للضيافة</span>
+    </div>
+  </div>
+  <button class="btn-ghost" id="settingsBtn">⚙️</button>
+</div>
+
+<div class="app-content">
+  <!-- Stats Section -->
+  <div class="stats-grid">
+    <div class="stat-widget">
+      <div class="num" id="statTotal">0</div>
+      <div class="label">إجمالي الحجوزات</div>
+    </div>
+    <div class="stat-widget">
+      <div class="num" id="statToday">0</div>
+      <div class="label">وصول اليوم</div>
+    </div>
+    <div class="stat-widget">
+      <div class="num" id="statUpcoming">0</div>
+      <div class="label">حجوزات قادمة</div>
+    </div>
+    <div class="stat-widget">
+      <div class="num" id="statSent">0</div>
+      <div class="label">رسائل مرسلة</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن ضيف أو فيلا...">
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <div class="filter-pill active" data-filter="all">الكل</div>
+      <div class="filter-pill" data-filter="today">اليوم</div>
+      <div class="filter-pill" data-filter="upcoming">قادمة</div>
+      <div class="filter-pill" data-filter="active">جارية</div>
+      <div class="filter-pill" data-filter="past">منتهية</div>
+    </div>
+  </div>
+
+  <!-- Main Views -->
+  <div id="listView">
+    <div id="listContainer"></div>
+  </div>
+
+  <div id="calView" class="hidden">
+    <div class="calendar-container">
+      <div class="cal-nav">
+        <div class="cal-month-year" id="calMonthYear">الشهر والسنة</div>
+        <div style="display:flex; gap:8px;">
+          <button class="cal-btn" id="prevMonth">←</button>
+          <button class="cal-btn" id="nextMonth">→</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="navHome">
+    <span class="nav-icon">🏠</span>
+    <span>الرئيسية</span>
+  </div>
+  <div class="nav-item" id="navCal">
+    <span class="nav-icon">📅</span>
+    <span>التقويم</span>
+  </div>
+  <div class="nav-add-btn" id="navAdd">＋</div>
+  <div class="nav-item" id="navSettings">
+    <span class="nav-icon">⚙️</span>
+    <span>الإعدادات</span>
+  </div>
+  <div class="nav-item" style="visibility: hidden;"></div>
+</div>
+
+<!-- Modals -->
+<div class="overlay" id="bookingOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">حجز جديد</h2>
+      <button id="closeBooking" style="background:none; font-size:20px; cursor:pointer;">✕</button>
+    </div>
+    <input type="hidden" id="bookingId">
+    <div class="field">
+      <label>اسم صاحب الحجز</label>
+      <input type="text" id="guestName" placeholder="مثال: أبو خالد">
+    </div>
+    <div class="field">
+      <label>رقم الجوال (واتساب)</label>
+      <input type="text" id="guestPhone" placeholder="مثال: 0791234567">
+    </div>
+    <div class="field">
+      <label>اختر الفيلا</label>
+      <select id="villaName">
+        <option value="ذهب 1">ذهب 1</option>
+        <option value="ذهب 2">ذهب 2</option>
+        <option value="ذهب 3">ذهب 3</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>عدد الأشخاص</label>
+      <select id="guestsCount"></select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>تاريخ الوصول</label>
+        <input type="date" id="checkIn">
+      </div>
+      <div class="field">
+        <label>تاريخ المغادرة</label>
+        <input type="date" id="checkOut">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>وقت الدخول</label>
+        <select id="checkInTime"></select>
+      </div>
+      <div class="field">
+        <label>وقت الخروج</label>
+        <select id="checkOutTime"></select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>السعر الإجمالي</label>
+        <input type="number" id="price" placeholder="0">
+      </div>
+      <div class="field">
+        <label>العربون</label>
+        <input type="number" id="deposit" placeholder="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>المبلغ المتبقي</label>
+      <input type="text" id="remainingAmount" readonly style="background: #eee; font-weight: 800; color: var(--danger);">
+    </div>
+    <div class="field">
+      <label>ملاحظات</label>
+      <textarea id="notes" rows="2"></textarea>
+    </div>
+    <button class="btn-save btn-primary" id="saveBooking">حفظ الحجز</button>
+  </div>
+</div>
+
+<div class="overlay" id="settingsOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>الإعدادات</h2>
+      <button id="closeSettings" style="background:none; font-size:20px; cursor:pointer;">✕</button>
+    </div>
+    <div class="field">
+      <label>مفتاح الدولة</label>
+      <input type="text" id="countryCode" placeholder="962">
+    </div>
+    <div class="field">
+      <label>رقم عمر (لإرسال التقارير)</label>
+      <input type="text" id="omarPhoneInput" placeholder="+97256800551">
+    </div>
+    <div class="field">
+      <label>قالب رسالة التأكيد</label>
+      <div class="placeholders" style="margin-bottom:10px; display:flex; flex-wrap:wrap; gap:5px;">
+        <span class="ph-chip" data-ph="{الاسم}">{الاسم}</span>
+        <span class="ph-chip" data-ph="{الفيلا}">{الفيلا}</span>
+        <span class="ph-chip" data-ph="{الوصول}">{الوصول}</span>
+        <span class="ph-chip" data-ph="{المغادرة}">{المغادرة}</span>
+        <span class="ph-chip" data-ph="{وقت_الدخول}">{وقت_الدخول}</span>
+        <span class="ph-chip" data-ph="{وقت_الخروج}">{وقت_الخروج}</span>
+        <span class="ph-chip" data-ph="{السعر}">{السعر}</span>
+        <span class="ph-chip" data-ph="{العربون}">{العربون}</span>
+        <span class="ph-chip" data-ph="{المتبقي}">{المتبقي}</span>
+        <span class="ph-chip" data-ph="{العدد}">{العدد}</span>
+      </div>
+      <textarea id="templateInput" style="min-height:120px;"></textarea>
+    </div>
+    <div class="field">
+      <label>قالب القوانين</label>
+      <textarea id="rulesTemplateInput" style="min-height:120px;"></textarea>
+    </div>
+    <div class="backup-section" style="display:flex; gap:10px; margin-bottom:20px;">
+      <button class="btn-ghost" id="exportBtn" style="flex:1">📥 نسخة احتياطية</button>
+      <button class="btn-ghost" id="importBtn" style="flex:1">📤 استيراد</button>
+      <input type="file" id="importFile" style="display:none" accept=".json">
+    </div>
+    <button class="btn-save btn-primary" id="saveSettings">حفظ الإعدادات</button>
+  </div>
+</div>
+
+<script>
+const DEFAULT_TEMPLATE = `مرحباً {الاسم} 👋
+تم تأكيد حجزكم في {الفيلا}
+📅 تاريخ الوصول: {الوصول} - 🕒 وقت الدخول: {وقت_الدخول}
+📅 تاريخ المغادرة: {المغادرة} - 🕒 وقت الخروج: {وقت_الخروج}
+👥 عدد الأشخاص: {العدد}
+
+💰 التفاصيل المالية:
+السعر الإجمالي: {السعر} شيكل
+العربون المدفوع: {العربون} شيكل
+المبلغ المتبقي: {المتبقي} شيكل
+
+بانتظار استضافتكم! 🌿`;
+
+const DEFAULT_RULES_TEMPLATE = `⚠️ تنبيه مهم – قوانين استئجار الفيلا
+نرجو من جميع المستأجرين الالتزام بالقوانين التالية بشكل كامل:
+
+1. يجب دفع كامل مبلغ الإيجار عند استلام الفيلا وقبل تسليم المفتاح.
+2. يتم دفع مبلغ تأمين بقيمة 200 شيكل عند استلام الفيلا.
+... (باقي القوانين)`;
+
+let bookings = [];
+let settings = { 
+  countryCode: '', 
+  template: DEFAULT_TEMPLATE, 
+  rulesTemplate: DEFAULT_RULES_TEMPLATE, 
+  omarPhone: '+97256800551' 
+};
+let currentFilter = 'all';
+let searchTerm = '';
+let currentView = 'list';
+let calDate = new Date();
+
+async function loadData(){
+  try{
+    const b = localStorage.getItem('villa-bookings-data');
+    bookings = b ? JSON.parse(b) : [];
+    const s = localStorage.getItem('villa-settings-data');
+    if(s) settings = { ...settings, ...JSON.parse(s) };
+    if(!settings.rulesTemplate) settings.rulesTemplate = DEFAULT_RULES_TEMPLATE;
+  }catch(e){ console.error(e); }
+  render();
+}
+
+async function saveBookings(){
+  localStorage.setItem('villa-bookings-data', JSON.stringify(bookings));
+}
+
+async function saveSettingsData(){
+  localStorage.setItem('villa-settings-data', JSON.stringify(settings));
+}
+
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+function getStatus(b){
+  const t = todayStr();
+  if(b.checkIn === t) return 'today';
+  if(b.checkIn > t) return 'upcoming';
+  if(b.checkOut && b.checkOut < t) return 'past';
+  if(b.checkIn < t && (!b.checkOut || b.checkOut >= t)) return 'active';
+  return 'upcoming';
+}
+
+function formatDate(str){
+  if(!str) return '—';
+  const [y,m,d] = str.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function formatTime(str){
+  if(!str) return 'غير محدد';
+  const [h,m] = str.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h>=12?'م':'ص'}`;
+}
+
+function buildMessage(b){
+  return settings.template
+    .replaceAll('{الاسم}', b.guestName || '')
+    .replaceAll('{الفيلا}', b.villaName || '')
+    .replaceAll('{الوصول}', formatDate(b.checkIn))
+    .replaceAll('{المغادرة}', formatDate(b.checkOut))
+    .replaceAll('{وقت_الدخول}', formatTime(b.checkInTime))
+    .replaceAll('{وقت_الخروج}', formatTime(b.checkOutTime))
+    .replaceAll('{السعر}', b.price || '0')
+    .replaceAll('{العربون}', b.deposit || '0')
+    .replaceAll('{المتبقي}', b.remainingAmount || '0')
+    .replaceAll('{العدد}', b.guestsCount || '—');
+}
+
+function render(){
+  const counts = {all:bookings.length, today:0, upcoming:0, active:0, past:0};
+  bookings.forEach(b => counts[getStatus(b)]++);
+
+  document.getElementById('statTotal').textContent = counts.all;
+  document.getElementById('statToday').textContent = counts.today;
+  document.getElementById('statUpcoming').textContent = counts.upcoming;
+  document.getElementById('statSent').textContent = bookings.filter(b=>b.sent).length;
+
+  if(currentView === 'list') renderListView(); else renderCalendar();
+}
+
+function renderListView(){
+  const container = document.getElementById('listContainer');
+  document.getElementById('listView').classList.remove('hidden');
+  document.getElementById('calView').classList.add('hidden');
+
+  let filtered = bookings.filter(b => currentFilter === 'all' || getStatus(b) === currentFilter);
+  if(searchTerm) {
+    const q = searchTerm.toLowerCase();
+    filtered = filtered.filter(b => (b.guestName||'').toLowerCase().includes(q) || (b.villaName||'').toLowerCase().includes(q));
+  }
+  filtered.sort((a,b) => (a.checkIn||'').localeCompare(b.checkIn||''));
+
+  if(filtered.length === 0){
+    container.innerHTML = `<div class="empty-state" style="text-align:center; padding:40px;"><h3 style="color:var(--ink-soft)">لا توجد حجوزات</h3></div>`;
+    return;
+  }
+
+  const statusText = {today:'وصول اليوم', upcoming:'قادم', active:'جاري الآن', past:'منتهي'};
+
+  container.innerHTML = filtered.map(b => {
+    const st = getStatus(b);
+    return `
+    <div class="booking-card" style="border-right: 5px solid ${st==='today'?'var(--gold)':st==='active'?'var(--pine)':'var(--border)'}">
+      <div class="bc-main">
+        <div class="card-header">
+          <div class="guest-info">
+            <h3>${escapeHtml(b.guestName)} (${b.guestsCount || '1'} أشخاص)</h3>
+            <span class="villa-tag">${escapeHtml(b.villaName)}</span>
+          </div>
+          <span class="status-pill ${st}">${statusText[st]}</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-item">📅 من <b>${formatDate(b.checkIn)}</b></div>
+          <div class="detail-item">📅 إلى <b>${formatDate(b.checkOut)}</b></div>
+          <div class="detail-item">🕒 دخول <b>${formatTime(b.checkInTime)}</b></div>
+          <div class="detail-item">🕒 خروج <b>${formatTime(b.checkOutTime)}</b></div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">${b.price} شيكل</div>
+          <div class="action-group">
+            <div class="action-btn" title="تأكيد" onclick="sendWhatsapp('${b.id}')">💬</div>
+            <div class="action-btn" title="قوانين" onclick="sendRules('${b.id}')">📋</div>
+            <div class="action-btn" title="إرسال لعمر" onclick="sendToOmar('${b.id}')">🔑</div>
+            <div class="action-btn" title="تعديل" onclick="openEdit('${b.id}')">✎</div>
+            <div class="action-btn" title="حذف" onclick="deleteBooking('${b.id}')">✕</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCalendar(){
+  document.getElementById('listView').classList.add('hidden');
+  document.getElementById('calView').classList.remove('hidden');
+
+  const monthNames = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+  const dayLabels = ["أحد", "إثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"];
+  const year = calDate.getFullYear();
+  const month = calDate.getMonth();
+  
+  document.getElementById('calMonthYear').textContent = `${monthNames[month]} ${year}`;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  let html = '<div class="cal-grid">';
+  dayLabels.forEach(day => html += `<div class="cal-day-label" style="font-weight:bold; font-size:12px; margin-bottom:10px;">${day}</div>`);
+  for(let i=0; i<firstDay; i++) html += '<div class="cal-cell"></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayBookings = bookings.filter(b => b.checkIn && b.checkOut && dateStr >= b.checkIn && dateStr <= b.checkOut);
+    html += `<div class="cal-day ${dateStr===todayStr()?'today':''}">
+      ${d}
+      ${dayBookings.map(b => `<div class="cal-booking-dot" onclick="openEdit('${b.id}')">${escapeHtml(b.guestName)}</div>`).join('')}
+    </div>`;
+  }
+  html += '</div>';
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+window.sendWhatsapp = function(id){
+  const b = bookings.find(x => x.id === id);
+  if(!b) return;
+  const phone = normalizePhone(b.phone);
+  const msg = encodeURIComponent(buildMessage(b));
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  b.sent = true;
+  saveBookings();
+  render();
+};
+
+window.sendRules = function(id){
+  const b = bookings.find(x => x.id === id);
+  if(!b) return;
+  const phone = normalizePhone(b.phone);
+  const msg = encodeURIComponent(settings.rulesTemplate.replaceAll('{الاسم}', b.guestName || '').replaceAll('{الفيلا}', b.villaName || ''));
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+};
+
+window.sendToOmar = function(id){
+  const b = bookings.find(x => x.id === id);
+  if(!b) return;
+  
+  let omarPhone = settings.omarPhone || '+97256800551';
+  omarPhone = omarPhone.replace(/[^0-9]/g, ''); 
+  if(omarPhone.startsWith('0')){
+    omarPhone = '972' + omarPhone.slice(1);
+  }
+
+  // التعديل: إضافة رقم هاتف الزبون في رسالة عمر
+  const msg = encodeURIComponent(`🔑 *تقرير تسليم فيلا*\n\nالضيف: ${b.guestName}\n📞 هاتف الزبون: ${b.phone}\nالفيلا: ${b.villaName}\n\n📅 الوصول: ${formatDate(b.checkIn)} - ${formatTime(b.checkInTime)}\n📅 المغادرة: ${formatDate(b.checkOut)} - ${formatTime(b.checkOutTime)}\n\n👥 العدد: ${b.guestsCount} أشخاص\n💰 المبلغ المتبقي: ${b.remainingAmount} شيكل\n\n📝 ملاحظات: ${b.notes || 'لا يوجد'}`);
+  
+  window.open(`https://wa.me/${omarPhone}?text=${msg}`, '_blank');
+};
+
+window.openEdit = function(id){
+  const b = bookings.find(x => x.id === id);
+  if(!b) return;
+  document.getElementById('modalTitle').textContent = 'تعديل الحجز';
+  document.getElementById('bookingId').value = b.id;
+  document.getElementById('guestName').value = b.guestName || '';
+  document.getElementById('guestPhone').value = b.phone || '';
+  document.getElementById('villaName').value = b.villaName || 'ذهب 1';
+  document.getElementById('guestsCount').value = b.guestsCount || '1';
+  document.getElementById('checkIn').value = b.checkIn || '';
+  document.getElementById('checkOut').value = b.checkOut || '';
+  document.getElementById('checkInTime').value = b.checkInTime || '';
+  document.getElementById('checkOutTime').value = b.checkOutTime || '';
+  document.getElementById('price').value = b.price || '';
+  document.getElementById('deposit').value = b.deposit || '';
+  document.getElementById('remainingAmount').value = b.remainingAmount || '';
+  document.getElementById('notes').value = b.notes || '';
+  document.getElementById('bookingOverlay').classList.add('open');
+};
+
+window.deleteBooking = function(id){
+  if(!confirm('حذف هذا الحجز؟')) return;
+  bookings = bookings.filter(x => x.id !== id);
+  saveBookings();
+  render();
+};
+
+function openBookingModal(){
+  document.getElementById('modalTitle').textContent = 'حجز جديد';
+  document.getElementById('bookingId').value = '';
+  ['guestName','guestPhone','checkIn','checkOut','checkInTime','checkOutTime','price','deposit','notes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('villaName').value = 'ذهب 1';
+  document.getElementById('guestsCount').value = '1';
+  document.getElementById('remainingAmount').value = '';
+  document.getElementById('bookingOverlay').classList.add('open');
+}
+
+document.getElementById('closeBooking').onclick = () => document.getElementById('bookingOverlay').classList.remove('open');
+document.getElementById('closeSettings').onclick = () => document.getElementById('settingsOverlay').classList.remove('open');
+
+document.getElementById('saveBooking').onclick = () => {
+  const data = {
+    guestName: document.getElementById('guestName').value.trim(),
+    phone: document.getElementById('guestPhone').value.trim(),
+    villaName: document.getElementById('villaName').value,
+    guestsCount: document.getElementById('guestsCount').value,
+    checkIn: document.getElementById('checkIn').value,
+    checkOut: document.getElementById('checkOut').value,
+    checkInTime: document.getElementById('checkInTime').value,
+    checkOutTime: document.getElementById('checkOutTime').value,
+    price: document.getElementById('price').value || '0',
+    deposit: document.getElementById('deposit').value || '0',
+    remainingAmount: document.getElementById('remainingAmount').value || '0',
+    notes: document.getElementById('notes').value.trim()
+  };
+
+  if(!data.guestName || !data.phone || !data.checkIn){
+    alert('يرجى تعبئة البيانات الأساسية');
+    return;
+  }
+
+  const id = document.getElementById('bookingId').value;
+  if(id){
+    const b = bookings.find(x => x.id === id);
+    Object.assign(b, data);
+  } else {
+    bookings.push({ ...data, id: Date.now().toString(36), sent: false });
+  }
+  saveBookings();
+  document.getElementById('bookingOverlay').classList.remove('open');
+  render();
+};
+
+document.querySelectorAll('.filter-pill').forEach(p => {
+  p.onclick = () => {
+    document.querySelectorAll('.filter-pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    currentFilter = p.dataset.filter;
+    render();
+  };
+});
+
+document.getElementById('searchInput').oninput = (e) => {
+  searchTerm = e.target.value;
+  render();
+};
+
+function calcRem() {
+  const p = parseFloat(document.getElementById('price').value) || 0;
+  const d = parseFloat(document.getElementById('deposit').value) || 0;
+  document.getElementById('remainingAmount').value = (p - d);
+}
+document.getElementById('price').oninput = calcRem;
+document.getElementById('deposit').oninput = calcRem;
+
+document.getElementById('settingsBtn').onclick = () => {
+  document.getElementById('countryCode').value = settings.countryCode || '';
+  document.getElementById('omarPhoneInput').value = settings.omarPhone || '+97256800551';
+  document.getElementById('templateInput').value = settings.template || DEFAULT_TEMPLATE;
+  document.getElementById('rulesTemplateInput').value = settings.rulesTemplate || DEFAULT_RULES_TEMPLATE;
+  document.getElementById('settingsOverlay').classList.add('open');
+};
+
+document.getElementById('saveSettings').onclick = () => {
+  settings.countryCode = document.getElementById('countryCode').value.trim();
+  settings.omarPhone = document.getElementById('omarPhoneInput').value.trim();
+  settings.template = document.getElementById('templateInput').value;
+  settings.rulesTemplate = document.getElementById('rulesTemplateInput').value;
+  saveSettingsData();
+  document.getElementById('settingsOverlay').classList.remove('open');
+};
+
+document.getElementById('prevMonth').onclick = () => { calDate.setMonth(calDate.getMonth()-1); render(); };
+document.getElementById('nextMonth').onclick = () => { calDate.setMonth(calDate.getMonth()+1); render(); };
+
+(function initIntro() {
+  const intro = document.getElementById('introOverlay');
+  const btn = document.getElementById('startAppBtn');
+  setTimeout(() => {
+    document.getElementById('introTitle').classList.add('show-item');
+    document.getElementById('introDesc').classList.add('show-item');
+    btn.classList.add('show-item');
+    btn.classList.add('ready');
+  }, 200);
+  btn.onclick = () => { intro.style.display = 'none'; };
+})();
+
+function populateSelects() {
+  const guestsSelect = document.getElementById('guestsCount');
+  let guestsOpts = '<option value="1">1</option>';
+  for(let i=2; i<=16; i++) guestsOpts += `<option value="${i}">${i}</option>`;
+  guestsSelect.innerHTML = guestsOpts;
+
+  const timeSelects = [document.getElementById('checkInTime'), document.getElementById('checkOutTime')];
+  let timeOpts = '<option value="">اختر الوقت</option>';
+  for(let h=6; h<24; h++){
+    for(let m=0; m<60; m+=30){
+      const val = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      const display = `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h>=12?'م':'ص'}`;
+      timeOpts += `<option value="${val}">${display}</option>`;
+    }
+  }
+  timeSelects.forEach(s => s.innerHTML = timeOpts);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  populateSelects();
+  loadData();
+  
+  document.getElementById('navHome').onclick = () => {
+    currentView = 'list';
+    document.getElementById('navHome').classList.add('active');
+    document.getElementById('navCal').classList.remove('active');
+    render();
+  };
+  document.getElementById('navCal').onclick = () => {
+    currentView = 'cal';
+    document.getElementById('navCal').classList.add('active');
+    document.getElementById('navHome').classList.remove('active');
+    render();
+  };
+  document.getElementById('navSettings').onclick = () => {
+    document.getElementById('settingsOverlay').classList.add('open');
+  };
+  document.getElementById('navAdd').onclick = () => {
+    openBookingModal();
+  };
+});
+
+function normalizePhone(phone){
+  let p = (phone||'').replace(/[^0-9]/g,'');
+  if(p.startsWith('0')) p = (settings.countryCode||'') + p.slice(1);
+  return p;
+}
+
+loadData();
+</script>
+</body>
+</html>
